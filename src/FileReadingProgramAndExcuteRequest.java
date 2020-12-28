@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 
-public class Main {
+public class FileReadingProgramAndExcuteRequest {
     public static String outPutFileName = "outPut1.txt";
 
     public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Main {
             System.out.print("Nhap lua chon: ");
             Scanner input = new Scanner(System.in);
             int select = input.nextInt();
-            String url = "/home/dinhngocdinh/Downloads/String/inPut1.txt";
+            String url = "./String/inPut1.txt";
             switch (select) {
                 case 1:
                     printUpperCase(url);
@@ -23,12 +23,9 @@ public class Main {
                     switchString(url);
                     break;
                 case 4:
-                    deleteExtraSpace(url);
-                    break;
-                case 5:
                     insertString(url);
                     break;
-                case 6:
+                case 5:
                     loop = false;
                     System.out.println("Ket thuc chuong trinh!");
                     break;
@@ -50,26 +47,17 @@ public class Main {
         }
     }
 
-    private static void deleteExtraSpace(String url) {
-        StringBuffer result = readFile(url);
-        String replaceString = result.toString().replaceAll("\\s\\s+", " ").trim();
-        if (writeFile(outPutFileName, replaceString)) {
-            System.out.println("Xoa ky tu trang thua thanh cong!");
-        } else {
-            System.out.println("Xoa ky tu trang thua that bai!");
-        }
-    }
-
     private static void switchString(String url) {
         StringBuffer result = readFile(url);
-        int index = result.indexOf("Toi "); // lay ra chi so cua chuoi "Toi ..." trong chuoi result
-        int index2 = result.indexOf("De im ngu"); //lay ra chi so cua chuoi "De im ng u..." trong chuoi result (Trc tu ha noi pho)
-        String subStr = result.substring(index, index2);
-        String replaceString = result.toString().replace(subStr, subStr.toUpperCase()); // Thay the chuoi trong result
+        String replaceString = result.toString().replaceAll("\\s\\s+", " ").trim();
+        String str = "Toi yeu ha noi pho";
+        if (replaceString.contains(str)){
+            replaceString = replaceString.toString().replace(str, str.toUpperCase());
+        }
         if (writeFile(outPutFileName, replaceString)) {
-            System.out.println("Doi chuoi \"Toi yeu ha noi pho\" thanh chuoi in hoa thanh cong!");
+            System.out.println("Xoa khoang trang thua trong file inPut1.txt va doi chuoi \"Toi yeu ha noi pho\" thanh chuoi in hoa thanh cong!");
         } else {
-            System.out.println("Doi chuoi \"Toi yeu ha noi pho\" thanh chuoi in hoa that bai!");
+            System.out.println("Xoa khoang trang thua trong file inPut1.txt va doi chuoi \"Toi yeu ha noi pho\" thanh chuoi in hoa that bai!");
         }
     }
 
@@ -101,10 +89,9 @@ public class Main {
         System.out.println("Cho file inputBai1.txt. Chon yeu cau can thuc hien");
         System.out.println("1. In ra cac ky tu hoa.");
         System.out.println("2. Dem so luong ky tu va so ky tu thuong.");
-        System.out.println("3. Doi chuoi \"Toi yeu ha noi pho\" thanh chuoi viet hoa. Ghi lai ket qua vao file outPut1.txt");
-        System.out.println("4. Xoa ky tu trang thua. Ghi lai ket qua vao file outPut1.txt");
-        System.out.println("5. Nhap them 1 chuoi \"o con ga cua toi\" vao sau ky tu \"$\". Ghi lai ket qua vao file outPut1.txt");
-        System.out.println("6. Thoat khoi chuong trinh.");
+        System.out.println("3. Xoa ky tu trang thua va doi chuoi \"Toi yeu ha noi pho\" thanh chuoi viet hoa. Ghi lai ket qua vao file outPut1.txt");
+        System.out.println("4. Nhap them 1 chuoi \"o con ga cua toi\" vao sau ky tu \"$\". Ghi lai ket qua vao file outPut1.txt");
+        System.out.println("5. Thoat khoi chuong trinh.");
     }
 
     public static StringBuffer readFile(String url) {
@@ -115,7 +102,7 @@ public class Main {
             String line;
             while (true) {
                 line = bufferedReader.readLine();
-                if (line == null) {
+                if (line == null||line.equals("\\s")) {
                     break;
                 }
 
